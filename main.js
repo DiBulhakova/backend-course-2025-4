@@ -43,24 +43,24 @@ const server = http.createServer(async (req, res) => {
       filtered = filtered.filter(car => car.mpg < parseFloat(maxMpg));
     }
 
-    // Формування XML-об’єкту
-    const xmlData = {
-      cars: filtered.map(car => ({
-        car: {
-          model: car.model,
-          ...(showCylinders && { cyl: car.cyl }),
-          mpg: car.mpg
-        }
-      }))
-    };
+// Формування XML-об’єкту (варіант 5: <cars><car>...</car></cars>)
+const xmlData = {
+  cars: {
+    car: filtered.map(car => ({
+      model: car.model,
+      ...(showCylinders ? { cyl: car.cyl } : {}),
+      mpg: car.mpg
+    }))
+  }
+};
 
-    // Конвертація у XML
-    const builder = new XMLBuilder({ format: true });
-    const xmlOutput = builder.build(xmlData);
+// Конвертація у XML
+const builder = new XMLBuilder({ format: true });
+const xmlOutput = builder.build(xmlData);
 
-    // Відповідь
-    res.writeHead(200, { 'Content-Type': 'application/xml' });
-    res.end(xmlOutput);
+// Відповідь
+res.writeHead(200, { 'Content-Type': 'application/xml' });
+res.end(xmlOutput);
 
   } catch (err) {
     console.error(err);
