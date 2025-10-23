@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "start": "node main.js --input ./data/mtcars.json --host localhost --port 3000",
+  "dev": "nodemon main.js -i ./data/mtcars.json -h localhost -p 3000"
   },
   "keywords": [],
   "author": "",
